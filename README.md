@@ -6,6 +6,6 @@ As per the author stated, this custom control can be optimized by caching some v
 
 As per the author, the custom control could also benefit from extra exposed brush style properties, which this reimplementation also does. The new properties are FillBrushStyle, StarColor, and GradientDirection. The FillBrushStyle can either be Solid or Gradient. The GradientDirection determines the gradient color direction application (if I described it correctly, which indicates on what direction should the first color fade to the second color), and the StarColor determines the color of the stars themselves, which is used on GradientDirection to apply the gradient color.
 
-This reimplementation also provides an OnMouseDown() event to allow clicking of the stars, as well as the SelectedStar property, which is used to retrieve the value of the current selected star. This field cannot be set, as this field should only change per star click.
+This reimplementation also provides an OnMouseDown() event to allow clicking of the stars, as well as the SelectedStar property, which is used to retrieve the value of the current selected star.
 
 This reimplementation current has a tiny issue of not having any immediate changes if a star has been clicked, and the SelectedStarColor and HoverStarColor are different (I have found a simple fix, but it disables hovering until the mouse cursor has reentered the control border). For now, to avoid this visual issue, please ensure that the SelectedStarColor and HoverStarColor are the same.
