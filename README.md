@@ -8,4 +8,4 @@ As per the author, the custom control could also benefit from extra exposed brus
 
 This reimplementation also provides an OnMouseDown() event to allow clicking of the stars, as well as the SelectedStar property, which is used to retrieve the value of the current selected star. This field cannot be set, as this field should only change per star click.
 
-This reimplementation current has a tiny issue of not updating immediately when the SelectedStarColor and HoverColor are different (I have found a simple fix, but it disables hovering until the mouse cursor has reentered the control border), for now, to avoid this visual issue, please ensure that the SelectedStarColor and HoverColor are the same.
+This reimplementation current has a tiny issue of not updating immediately when the SelectedStarColor and HoverStarColor are different (I have found a simple fix, but it disables hovering until the mouse cursor has reentered the control border), for now, to avoid this visual issue, please ensure that the SelectedStarColor and HoverStarColor are the same.
