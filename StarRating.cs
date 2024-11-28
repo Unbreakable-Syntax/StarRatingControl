@@ -321,7 +321,11 @@ public partial class StarRating : UserControl
         }
         else
         {
-            if (m_hovering && m_hoverStar > starAreaIndex)
+            if (m_hovering && starAreaIndex < m_selectedStar)
+            {
+                fillBrush = new SolidBrush(SelectedStarColor);
+            }
+            else if (m_hovering && m_hoverStar > starAreaIndex)
             {
                 fillBrush = new SolidBrush(HoverStarColor);
             }
