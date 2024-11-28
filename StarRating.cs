@@ -377,7 +377,8 @@ public partial class StarRating : UserControl
 
     protected override void OnMouseMove(MouseEventArgs args)
     {
-        for (int i = 0; i < StarCount; ++i)
+        int val = m_selectedStar > 0 ? 1 : 0;
+        for (int i = m_selectedStar - val; i < StarCount; ++i)
         {
             if (m_starAreas[i].Contains(args.X, args.Y))
             {
