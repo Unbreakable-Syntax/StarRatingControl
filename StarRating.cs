@@ -298,10 +298,16 @@ public partial class StarRating : UserControl
 
         if (fillBrushStyle == FillStyle.Gradient)
         {
-            if (m_hovering && m_hoverStar > starAreaIndex)
+            if (m_hovering && starAreaIndex < m_selectedStar)
             {
                 fillBrush = new LinearGradientBrush(rect,
-                       HoverStarColor, StarColor, gradientMode);
+                    SelectedStarColor, StarColor, gradientMode);
+
+            }
+            else if (m_hovering && m_hoverStar > starAreaIndex)
+            {
+                fillBrush = new LinearGradientBrush(rect,
+                    HoverStarColor, StarColor, gradientMode);
             }
             else if ((!m_hovering) && m_selectedStar > starAreaIndex)
             {
@@ -383,6 +389,7 @@ public partial class StarRating : UserControl
             if (m_starAreas[i].Contains(args.X, args.Y))
             {
                 m_hoverStar = i + 1;
+                m_hovering = true;
                 Invalidate();
                 break;
             }
@@ -398,6 +405,7 @@ public partial class StarRating : UserControl
             if (m_starAreas[i].Contains(args.X, args.Y))
             {
                 m_selectedStar = i + 1;
+                m_hovering = false;
                 Invalidate();
                 break;
             }
