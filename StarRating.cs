@@ -27,9 +27,9 @@ public partial class StarRating : UserControl
     private int m_selectedStar = 0;
 
     private int starCount = 5;
-    private int starSpacing = 1;
+    private int starSpacing = 5;
     private static Rectangle[] m_starAreas;
-    private static Rectangle[] cachedAreas = new Rectangle[0];
+    private static Rectangle[] cachedAreas;
     private static PointF[] p = new PointF[10];
     private bool m_hovering = false;
     private bool layout_changed = false;
@@ -54,6 +54,7 @@ public partial class StarRating : UserControl
         Height = 18;
 
         m_starAreas = new Rectangle[StarCount];
+        cachedAreas = new Rectangle[StarCount];
     }
 
     public int StarCount
@@ -65,6 +66,7 @@ public partial class StarRating : UserControl
             {
                 starCount = value;
                 m_starAreas = new Rectangle[starCount];
+                cachedAreas = new Rectangle[StarCount];
                 layout_changed = true;
                 Invalidate();
             }
@@ -238,7 +240,6 @@ public partial class StarRating : UserControl
     {
         pe.Graphics.Clear(BackColor);
         pe.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-
         if (layout_changed)
         {
             int starWidth = (Width - (LeftMargin + RightMargin + (StarSpacing * (StarCount - 1)))) / StarCount;
@@ -254,11 +255,11 @@ public partial class StarRating : UserControl
                 m_starAreas[i].Height = drawArea.Height;
 
                 DrawStar(pe.Graphics, drawArea, i);
+                cachedAreas[i] = drawArea;
 
                 drawArea.X += drawArea.Width + StarSpacing;
             }
 
-            cachedAreas = m_starAreas;
             layout_changed = false;
         }
         else
@@ -311,7 +312,7 @@ public partial class StarRating : UserControl
             else if ((!m_hovering) && m_selectedStar > starAreaIndex)
             {
                 fillBrush = new LinearGradientBrush(rect,
-                       SelectedStarColor, StarColor, gradientMode);
+                    SelectedStarColor, StarColor, gradientMode);
             }
             else
             {
