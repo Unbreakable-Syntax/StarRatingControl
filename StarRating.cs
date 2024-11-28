@@ -44,7 +44,7 @@ public partial class StarRating : UserControl
     private FillStyle fillBrushStyle = FillStyle.Gradient;
 
     public StarRating()
-	{
+    {
         SetStyle(ControlStyles.AllPaintingInWmPaint, true);
         SetStyle(ControlStyles.UserPaint, true);
         SetStyle(ControlStyles.DoubleBuffer, true);
@@ -97,7 +97,17 @@ public partial class StarRating : UserControl
         }
     }
 
-    public int SelectedStar { get { return m_selectedStar; } }
+    public int SelectedStar
+    {
+        get { return m_selectedStar; } 
+        set
+        {
+            if (value >= 0 && value <= StarCount)
+            {
+                m_selectedStar = value;
+            }
+        }
+    }
 
     public int LeftMargin
     {
