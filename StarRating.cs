@@ -30,6 +30,7 @@ public partial class StarRating : UserControl
     private int starSpacing = 1;
     private static Rectangle[] m_starAreas;
     private static Rectangle[] cachedAreas = new Rectangle[0];
+    private static PointF[] p = new PointF[10];
     private bool m_hovering = false;
     private bool layout_changed = false;
 
@@ -318,7 +319,6 @@ public partial class StarRating : UserControl
             }
         }
 
-        PointF[] p = new PointF[10];
         p[0].X = rect.X + (rect.Width / 2);
         p[0].Y = rect.Y;
         p[1].X = rect.X + (42 * rect.Width / 64);
