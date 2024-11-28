@@ -302,7 +302,6 @@ public partial class StarRating : UserControl
             {
                 fillBrush = new LinearGradientBrush(rect,
                     SelectedStarColor, StarColor, gradientMode);
-
             }
             else if (m_hovering && m_hoverStar > starAreaIndex)
             {
