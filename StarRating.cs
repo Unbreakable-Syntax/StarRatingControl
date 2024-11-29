@@ -25,18 +25,20 @@ public partial class StarRating : UserControl
     private int m_bottomMargin = 2;
     private int m_hoverStar = 0;
     private int m_selectedStar = 0;
-
     private int starCount = 5;
     private int starSpacing = 5;
-    private static Rectangle[] m_starAreas;
-    private static Rectangle[] cachedAreas;
-    private static PointF[] p = new PointF[10];
+    private float outlineThickness = 2F;
+
     private bool m_hovering = false;
     private bool layout_changed = false;
 
+    private static Rectangle[] m_starAreas;
+    private static Rectangle[] cachedAreas;
+    private static PointF[] p = new PointF[10];
+
     private Color outlineColor = Color.Gray;
-    private float outlineThickness = 2F;
-    private Color hoverColor = Color.Yellow;
+    private Color removeColor = Color.Red;
+    private Color hoverColor = Color.Blue;
     private Color selectedColor = Color.Yellow;
     private Color gradientColor = Color.White;
 
@@ -203,6 +205,17 @@ public partial class StarRating : UserControl
         }
     }
 
+    public Color RemoveStarColor
+    {
+        get { return removeColor; }
+        set
+        {
+            removeColor = value;
+            layout_changed = true;
+            Invalidate();
+        }
+    }
+
     public float OutlineThickness
     {
         get { return outlineThickness; }
@@ -299,7 +312,12 @@ public partial class StarRating : UserControl
 
         if (fillBrushStyle == FillStyle.Gradient)
         {
-            if (m_hovering && starAreaIndex < m_selectedStar)
+            if (m_hovering && starAreaIndex >= m_hoverStar && starAreaIndex < m_selectedStar)
+            {
+                fillBrush = new LinearGradientBrush(rect,
+                    RemoveStarColor, StarColor, gradientMode);
+            }
+            else if (m_hovering && starAreaIndex < m_selectedStar)
             {
                 fillBrush = new LinearGradientBrush(rect,
                     SelectedStarColor, StarColor, gradientMode);
@@ -321,7 +339,11 @@ public partial class StarRating : UserControl
         }
         else
         {
-            if (m_hovering && starAreaIndex < m_selectedStar)
+            if (m_hovering && starAreaIndex >= m_hoverStar && starAreaIndex < m_selectedStar)
+            {
+                fillBrush = new SolidBrush(RemoveStarColor);
+            }
+            else if (m_hovering && starAreaIndex < m_selectedStar)
             {
                 fillBrush = new SolidBrush(SelectedStarColor);
             }
@@ -387,8 +409,7 @@ public partial class StarRating : UserControl
 
     protected override void OnMouseMove(MouseEventArgs args)
     {
-        int start = m_selectedStar > 0 ? m_selectedStar - 1 : 0;
-        for (int i = start; i < StarCount; ++i)
+        for (int i = 0; i < StarCount; ++i)
         {
             if (m_starAreas[i].Contains(args.X, args.Y))
             {
