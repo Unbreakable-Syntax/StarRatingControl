@@ -189,7 +189,6 @@ public partial class StarRating : UserControl
         set
         {
             outlineColor = value;
-            layout_changed = true;
             Invalidate();
         }
     }
@@ -200,7 +199,6 @@ public partial class StarRating : UserControl
         set
         {
             gradientColor = value;
-            layout_changed = true;
             Invalidate();
         }
     }
@@ -211,7 +209,6 @@ public partial class StarRating : UserControl
         set
         {
             removeColor = value;
-            layout_changed = true;
             Invalidate();
         }
     }
@@ -222,7 +219,6 @@ public partial class StarRating : UserControl
         set
         {
             outlineThickness = value;
-            layout_changed = true;
             Invalidate();
         }
     }
@@ -233,7 +229,6 @@ public partial class StarRating : UserControl
         set
         {
             hoverColor = value;
-            layout_changed = true;
             Invalidate();
         }
     }
@@ -244,7 +239,6 @@ public partial class StarRating : UserControl
         set
         {
             selectedColor = value;
-            layout_changed = true;
             Invalidate();
         }
     }
