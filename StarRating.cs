@@ -284,9 +284,6 @@ public partial class StarRating : UserControl
     {
         Brush fillBrush;
         Pen outlinePen = new Pen(OutlineColor, OutlineThickness);
-        outlinePen.LineJoin = LineJoin.Round;
-        outlinePen.StartCap = LineCap.Round;
-        outlinePen.EndCap = LineCap.Round;
 
         // Determine the gradient direction based on the GradientDirection property
         LinearGradientMode gradientMode = LinearGradientMode.ForwardDiagonal; // Default
