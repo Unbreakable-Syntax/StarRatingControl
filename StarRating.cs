@@ -94,10 +94,7 @@ public partial class StarRating : UserControl
         get { return m_selectedStar; }
         set
         {
-            if (value >= 0 && value <= StarCount)
-            {
-                m_selectedStar = value;
-            }
+            m_selectedStar = value <= StarCount && value >= 0 ? value : 0;
         }
     }
 
