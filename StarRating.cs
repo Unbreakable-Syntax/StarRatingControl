@@ -75,6 +75,32 @@ public partial class StarRating : UserControl
         }
     }
 
+    public int StarSpacing
+    {
+        get { return starSpacing; }
+        set
+        {
+            if (starSpacing != value && value >= 1)
+            {
+                starSpacing = value;
+                layout_changed = true;
+                Invalidate();
+            }
+        }
+    }
+
+    public int SelectedStar
+    {
+        get { return m_selectedStar; }
+        set
+        {
+            if (value >= 0 && value <= StarCount)
+            {
+                m_selectedStar = value;
+            }
+        }
+    }
+
     public GradientDirection GradientDirection
     {
         get { return gradientDirection; }
@@ -97,18 +123,6 @@ public partial class StarRating : UserControl
             {
                 fillBrushStyle = value;
                 Invalidate();  // Redraw the stars when the style changes
-            }
-        }
-    }
-
-    public int SelectedStar
-    {
-        get { return m_selectedStar; } 
-        set
-        {
-            if (value >= 0 && value <= StarCount)
-            {
-                m_selectedStar = value;
             }
         }
     }
@@ -169,26 +183,21 @@ public partial class StarRating : UserControl
         }
     }
 
-    public int StarSpacing
-    {
-        get { return starSpacing; }
-        set
-        {
-            if (starSpacing != value && value >= 1)
-            {
-                starSpacing = value;
-                layout_changed = true;
-                Invalidate();
-            }
-        }
-    }
-
     public Color OutlineColor
     {
         get { return outlineColor; }
         set
         {
             outlineColor = value;
+            Invalidate();
+        }
+    }
+    public float OutlineThickness
+    {
+        get { return outlineThickness; }
+        set
+        {
+            outlineThickness = value;
             Invalidate();
         }
     }
@@ -209,16 +218,6 @@ public partial class StarRating : UserControl
         set
         {
             removeColor = value;
-            Invalidate();
-        }
-    }
-
-    public float OutlineThickness
-    {
-        get { return outlineThickness; }
-        set
-        {
-            outlineThickness = value;
             Invalidate();
         }
     }
