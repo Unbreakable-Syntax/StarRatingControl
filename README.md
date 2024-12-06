@@ -1,5 +1,5 @@
 # Description
-This is a Star Rating Control implementation for C# WinForms that has been derived from [here](https://www.codeproject.com/articles/9117/csharp-star-rating-control), the original article has a broken link for the source code of the custom control, this repository is a rebuild of this custom control, with some other extra changes.
+This is a Star Rating Control implementation for C# WinForms that has been derived from [here](https://www.codeproject.com/articles/9117/csharp-star-rating-control), the original article has a broken link for the source code of the custom control, this repository is a rebuild of the linked custom control, with some other extra changes.
 
 # Extra changes
 As per the author stated, this custom control can be optimized by caching some values to optimize performance. This reimplementation applies that idea by caching data points inside a secondary array. The render data for the stars will only be redrawn when any of the fields that are part of the rendering process (such as the margin, and star count) has been changed. Otherwise, calling Invalidate() will simply recolor the stars, making the OnMouseMove() and other methods to be at least somewhat faster.
