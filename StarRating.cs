@@ -2,7 +2,6 @@
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 using System;
-using Org.BouncyCastle.Asn1.Cms;
 
 public enum GradientDirection
 {
