@@ -418,7 +418,8 @@ public partial class StarRating : UserControl
         {
             if (cachedAreas[i].Contains(args.X, args.Y))
             {
-                m_selectedStar = i + 1;
+                if (m_selectedStar == 1) { m_selectedStar = 0; return; }
+                else { m_selectedStar = i + 1; }
                 m_hovering = false;
                 Invalidate();
                 break;
