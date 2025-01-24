@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 using System;
+using Org.BouncyCastle.Asn1.Cms;
 
 public enum GradientDirection
 {
@@ -274,7 +275,7 @@ public partial class StarRating : UserControl
 
     protected void DrawStar(Graphics g, Rectangle rect, int starAreaIndex)
     {
-        Brush fillBrush;
+        Brush fillBrush = new SolidBrush(StarColor);
         Pen outlinePen = new Pen(OutlineColor, OutlineThickness);
 
         // Determine the gradient direction based on the GradientDirection property
@@ -318,10 +319,6 @@ public partial class StarRating : UserControl
                 fillBrush = new LinearGradientBrush(rect,
                     SelectedStarColor, StarColor, gradientMode);
             }
-            else
-            {
-                fillBrush = new SolidBrush(StarColor);
-            }
         }
         else
         {
@@ -340,10 +337,6 @@ public partial class StarRating : UserControl
             else if (!m_hovering && m_selectedStar > starAreaIndex)
             {
                 fillBrush = new SolidBrush(SelectedStarColor);
-            }
-            else
-            {
-                fillBrush = new SolidBrush(StarColor);
             }
         }
 
