@@ -32,9 +32,8 @@ public partial class StarRating : UserControl
     private bool m_hovering = false;
     private bool layout_changed = false;
 
-    private Rectangle[] m_starAreas;
     private Rectangle[] cachedAreas;
-    private PointF[] p = new PointF[10];
+    private PointF[][] p;
 
     private Color outlineColor = Color.Gray;
     private Color removeColor = Color.Red;
@@ -55,8 +54,9 @@ public partial class StarRating : UserControl
         Width = 120;
         Height = 18;
 
-        m_starAreas = new Rectangle[StarCount];
         cachedAreas = new Rectangle[StarCount];
+        p = new PointF[StarCount][];
+        for (int i = 0; i < StarCount; i++) { p[i] = new PointF[10]; }
     }
 
     public int StarCount
@@ -66,9 +66,9 @@ public partial class StarRating : UserControl
         {
             if (value >= 1)
             {
-                starCount = value;
-                m_starAreas = new Rectangle[starCount];
                 cachedAreas = new Rectangle[StarCount];
+                p = new PointF[StarCount][];
+                for (int i = 0; i < StarCount; i++) { p[i] = new PointF[10]; }
                 layout_changed = true;
                 Invalidate();
             }
@@ -252,11 +252,6 @@ public partial class StarRating : UserControl
 
             for (int i = 0; i < StarCount; ++i)
             {
-                m_starAreas[i].X = drawArea.X - StarSpacing / 2;
-                m_starAreas[i].Y = drawArea.Y;
-                m_starAreas[i].Width = drawArea.Width + StarSpacing / 2;
-                m_starAreas[i].Height = drawArea.Height;
-
                 DrawStar(pe.Graphics, drawArea, i);
                 cachedAreas[i] = drawArea;
 
@@ -351,29 +346,32 @@ public partial class StarRating : UserControl
             }
         }
 
-        p[0].X = rect.X + (rect.Width / 2);
-        p[0].Y = rect.Y;
-        p[1].X = rect.X + (42 * rect.Width / 64);
-        p[1].Y = rect.Y + (19 * rect.Height / 64);
-        p[2].X = rect.X + rect.Width;
-        p[2].Y = rect.Y + (22 * rect.Height / 64);
-        p[3].X = rect.X + (48 * rect.Width / 64);
-        p[3].Y = rect.Y + (38 * rect.Height / 64);
-        p[4].X = rect.X + (52 * rect.Width / 64);
-        p[4].Y = rect.Y + rect.Height;
-        p[5].X = rect.X + (rect.Width / 2);
-        p[5].Y = rect.Y + (52 * rect.Height / 64);
-        p[6].X = rect.X + (12 * rect.Width / 64);
-        p[6].Y = rect.Y + rect.Height;
-        p[7].X = rect.X + rect.Width / 4;
-        p[7].Y = rect.Y + (38 * rect.Height / 64);
-        p[8].X = rect.X;
-        p[8].Y = rect.Y + (22 * rect.Height / 64);
-        p[9].X = rect.X + (22 * rect.Width / 64);
-        p[9].Y = rect.Y + (19 * rect.Height / 64);
+        if (layout_changed)
+        {
+            p[starAreaIndex][0].X = rect.X + (rect.Width / 2);
+            p[starAreaIndex][0].Y = rect.Y;
+            p[starAreaIndex][1].X = rect.X + (42 * rect.Width / 64);
+            p[starAreaIndex][1].Y = rect.Y + (19 * rect.Height / 64);
+            p[starAreaIndex][2].X = rect.X + rect.Width;
+            p[starAreaIndex][2].Y = rect.Y + (22 * rect.Height / 64);
+            p[starAreaIndex][3].X = rect.X + (48 * rect.Width / 64);
+            p[starAreaIndex][3].Y = rect.Y + (38 * rect.Height / 64);
+            p[starAreaIndex][4].X = rect.X + (52 * rect.Width / 64);
+            p[starAreaIndex][4].Y = rect.Y + rect.Height;
+            p[starAreaIndex][5].X = rect.X + (rect.Width / 2);
+            p[starAreaIndex][5].Y = rect.Y + (52 * rect.Height / 64);
+            p[starAreaIndex][6].X = rect.X + (12 * rect.Width / 64);
+            p[starAreaIndex][6].Y = rect.Y + rect.Height;
+            p[starAreaIndex][7].X = rect.X + rect.Width / 4;
+            p[starAreaIndex][7].Y = rect.Y + (38 * rect.Height / 64);
+            p[starAreaIndex][8].X = rect.X;
+            p[starAreaIndex][8].Y = rect.Y + (22 * rect.Height / 64);
+            p[starAreaIndex][9].X = rect.X + (22 * rect.Width / 64);
+            p[starAreaIndex][9].Y = rect.Y + (19 * rect.Height / 64);
+        }
 
-        g.FillPolygon(fillBrush, p);
-        g.DrawPolygon(outlinePen, p);
+        g.FillPolygon(fillBrush, p[starAreaIndex]);
+        g.DrawPolygon(outlinePen, p[starAreaIndex]);
     }
 
     protected override void OnResize(EventArgs e)
@@ -401,7 +399,7 @@ public partial class StarRating : UserControl
     {
         for (int i = 0; i < StarCount; ++i)
         {
-            if (m_starAreas[i].Contains(args.X, args.Y))
+            if (cachedAreas[i].Contains(args.X, args.Y))
             {
                 m_hoverStar = i + 1;
                 m_hovering = true;
@@ -417,7 +415,7 @@ public partial class StarRating : UserControl
     {
         for (int i = 0; i < StarCount; ++i)
         {
-            if (m_starAreas[i].Contains(args.X, args.Y))
+            if (cachedAreas[i].Contains(args.X, args.Y))
             {
                 m_selectedStar = i + 1;
                 m_hovering = false;
