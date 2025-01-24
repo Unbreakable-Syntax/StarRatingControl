@@ -66,6 +66,7 @@ public partial class StarRating : UserControl
         {
             if (value >= 1)
             {
+                starCount = value;
                 cachedAreas = new Rectangle[StarCount];
                 p = new PointF[StarCount][];
                 for (int i = 0; i < StarCount; i++) { p[i] = new PointF[10]; }
