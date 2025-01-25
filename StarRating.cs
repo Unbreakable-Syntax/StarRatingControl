@@ -406,12 +406,12 @@ public partial class StarRating : UserControl
 
     protected override void OnMouseDown(MouseEventArgs args)
     {
+        if (m_selectedStar == 1 && cachedAreas[0].Contains(args.X, args.Y)) { m_selectedStar = 0; return; }
         for (int i = 0; i < StarCount; ++i)
         {
             if (cachedAreas[i].Contains(args.X, args.Y))
             {
-                if (m_selectedStar == 1 && cachedAreas[0].Contains(args.X, args.Y)) { m_selectedStar = 0; return; }
-                else { m_selectedStar = i + 1; }
+                m_selectedStar = i + 1;
                 m_hovering = false;
                 Invalidate();
                 break;
