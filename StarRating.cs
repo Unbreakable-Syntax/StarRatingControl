@@ -17,6 +17,16 @@ public enum FillStyle
     Gradient
 }
 
+public class StarSelectedEventArgs : EventArgs
+{
+    public int SelectedStar { get; }
+
+    public StarSelectedEventArgs(int selectedStar)
+    {
+        SelectedStar = selectedStar;
+    }
+};
+
 public partial class StarRating : UserControl
 {
     private int m_leftMargin = 2;
@@ -58,6 +68,8 @@ public partial class StarRating : UserControl
         p = new PointF[StarCount][];
         for (int i = 0; i < StarCount; i++) { p[i] = new PointF[10]; }
     }
+
+    public event EventHandler<StarSelectedEventArgs> OnStarSelected;
 
     public int StarCount
     {
@@ -406,7 +418,13 @@ public partial class StarRating : UserControl
 
     protected override void OnMouseDown(MouseEventArgs args)
     {
-        if (m_selectedStar == 1 && cachedAreas[0].Contains(args.X, args.Y)) { m_selectedStar = 0; return; }
+        if (m_selectedStar == 1 && cachedAreas[0].Contains(args.X, args.Y)) 
+        {
+            m_selectedStar = 0;
+            OnStarSelected?.Invoke(this, new StarSelectedEventArgs(m_selectedStar));
+            return; 
+        }
+
         for (int i = 0; i < StarCount; ++i)
         {
             if (cachedAreas[i].Contains(args.X, args.Y))
@@ -414,6 +432,7 @@ public partial class StarRating : UserControl
                 m_selectedStar = i + 1;
                 m_hovering = false;
                 Invalidate();
+                OnStarSelected?.Invoke(this, new StarSelectedEventArgs(m_selectedStar));
                 break;
             }
         }
