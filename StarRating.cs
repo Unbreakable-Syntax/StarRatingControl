@@ -41,6 +41,7 @@ public partial class StarRating : UserControl
 
     private bool m_hovering = false;
     private bool layout_changed = false;
+    private bool oneStarOnly = false, oneStarBefore = false;
 
     private Rectangle[] cachedAreas;
     private PointF[][] p;
@@ -310,10 +311,11 @@ public partial class StarRating : UserControl
 
         if (fillBrushStyle == FillStyle.Gradient)
         {
-            if (m_hovering && starAreaIndex >= m_hoverStar && starAreaIndex < m_selectedStar)
+            if ((m_hovering && starAreaIndex >= m_hoverStar && starAreaIndex < m_selectedStar) || oneStarOnly)
             {
                 fillBrush = new LinearGradientBrush(rect,
                     RemoveStarColor, StarColor, gradientMode);
+                oneStarOnly = false;
             }
             else if (m_hovering && starAreaIndex < m_selectedStar)
             {
@@ -333,7 +335,7 @@ public partial class StarRating : UserControl
         }
         else
         {
-            if (m_hovering && starAreaIndex >= m_hoverStar && starAreaIndex < m_selectedStar)
+            if ((m_hovering && starAreaIndex >= m_hoverStar && starAreaIndex < m_selectedStar) || oneStarOnly)
             {
                 fillBrush = new SolidBrush(RemoveStarColor);
             }
@@ -402,6 +404,9 @@ public partial class StarRating : UserControl
 
     protected override void OnMouseMove(MouseEventArgs args)
     {
+        if (m_selectedStar == 1 && cachedAreas[0].Contains(args.X, args.Y) && m_hovering) { oneStarOnly = true; }
+        else { oneStarOnly = false; }
+        if (oneStarBefore) { oneStarBefore = false; return; }
         for (int i = 0; i < StarCount; ++i)
         {
             if (cachedAreas[i].Contains(args.X, args.Y))
@@ -418,11 +423,14 @@ public partial class StarRating : UserControl
 
     protected override void OnMouseDown(MouseEventArgs args)
     {
-        if (m_selectedStar == 1 && cachedAreas[0].Contains(args.X, args.Y)) 
+        if (m_selectedStar == 1 && cachedAreas[0].Contains(args.X, args.Y))
         {
             m_selectedStar = 0;
             OnStarSelected?.Invoke(this, new StarSelectedEventArgs(m_selectedStar));
-            return; 
+            oneStarBefore = true;
+            m_hovering = false;
+            Invalidate();
+            return;
         }
 
         for (int i = 0; i < StarCount; ++i)
