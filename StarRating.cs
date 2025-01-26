@@ -338,6 +338,7 @@ public partial class StarRating : UserControl
             if ((m_hovering && starAreaIndex >= m_hoverStar && starAreaIndex < m_selectedStar) || oneStarOnly)
             {
                 fillBrush = new SolidBrush(RemoveStarColor);
+                oneStarOnly = false;
             }
             else if (m_hovering && starAreaIndex < m_selectedStar)
             {
